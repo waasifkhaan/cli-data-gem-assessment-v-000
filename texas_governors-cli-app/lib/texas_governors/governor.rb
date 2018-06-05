@@ -1,7 +1,12 @@
+require 'pry'
 class TexasGovernors::Governor
-  attr_accessor :name, :profile_url, :born_death_date, :age, :term_in_office, :party_affiliation, :elected_year
+  attr_accessor :doc, :name, :profile_url, :born_death_date, :age, :term_in_office, :party_affiliation, :elected_year
   
   @@governors = [] 
+  
+  def self.all 
+    @@governors
+  end 
   
   def initialize 
     @name 
@@ -18,7 +23,7 @@ class TexasGovernors::Governor
       title[1].css("tr").each do |tr_list|
         small_list = tr_list.search("small")
         
-        governor = TexasGovernors::Governor.new
+        governor = TexasGovernors::Governor.new  # self.new
         governor.name = tr_list.css("td big").first.text
         governor.age = small_list[1].text.gsub(/[()]/, "")
         governor.profile_url = "https://en.wikipedia.org#{tr_list.css("td big b a").attribute("href").value}"
@@ -29,7 +34,6 @@ class TexasGovernors::Governor
         
         @@governors << governor 
     end
-    array_governors
   end 
     
 
